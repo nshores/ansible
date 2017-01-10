@@ -54,5 +54,5 @@
         provider: "{{ cli }}"
       register: dhcp_validation
 
-
-
+    - name: debug
+      debug: "{{dhcp_validation.stdout}}"
