@@ -28,17 +28,17 @@
       ios_config:
         lines:
          - ip dhcp snooping trust
-         parents: interface gi1/1
-         provider: "{{ cli }}"
+        parents: interface gi1/1
+        provider: "{{ cli }}"
 
 
     - name: Config Trust port uplink on 10.1.1.245
       ios_config:
         lines:
          - ip dhcp snooping trust
-         parents: interface gi0/48
-         provider: "{{ cli }}"
-        when: "'10.1.1.245' in inventory_hostname"
+        parents: interface gi0/48
+        provider: "{{ cli }}"
+      when: "'10.1.1.245' in inventory_hostname"
 
     - name: Enable DHCP Snooping on VLAN's 
       ios_config:
@@ -52,7 +52,7 @@
          - ip dhcp snooping 
          - do show ip dhcp snooping | include Switch
         provider: "{{ cli }}"
-        register: dhcp_validation
+      register: dhcp_validation
 
 
 
