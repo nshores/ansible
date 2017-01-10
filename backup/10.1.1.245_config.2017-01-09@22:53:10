@@ -1,0 +1,796 @@
+Building configuration...
+
+Current configuration : 22601 bytes
+!
+! Last configuration change at 20:34:38 Pacific Fri Dec 30 2016 by admin
+! NVRAM config last updated at 20:34:41 Pacific Fri Dec 30 2016 by admin
+!
+version 15.0
+no service pad
+service timestamps debug datetime
+service timestamps log uptime
+service password-encryption
+!
+hostname SW6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+username admin privilege 15 password 7 121A0A19011F1E11293F2D273D
+no aaa new-model
+clock timezone Pacific -8 0
+system mtu routing 1500
+!
+!
+ip domain-name rci.local
+vtp domain Roebbelen
+vtp mode transparent
+!
+mls qos map policed-dscp  0 10 18 24 46 to 8
+mls qos map cos-dscp 0 8 16 24 32 46 48 56
+mls qos srr-queue input bandwidth 70 30
+mls qos srr-queue input threshold 1 80 90
+mls qos srr-queue input priority-queue 2 bandwidth 30
+mls qos srr-queue input cos-map queue 1 threshold 2 3
+mls qos srr-queue input cos-map queue 1 threshold 3 6 7
+mls qos srr-queue input cos-map queue 2 threshold 1 4
+mls qos srr-queue input dscp-map queue 1 threshold 2 24
+mls qos srr-queue input dscp-map queue 1 threshold 3 48 49 50 51 52 53 54 55
+mls qos srr-queue input dscp-map queue 1 threshold 3 56 57 58 59 60 61 62 63
+mls qos srr-queue input dscp-map queue 2 threshold 3 32 33 40 41 42 43 44 45
+mls qos srr-queue input dscp-map queue 2 threshold 3 46 47
+mls qos srr-queue output cos-map queue 1 threshold 3 4 5
+mls qos srr-queue output cos-map queue 2 threshold 1 2
+mls qos srr-queue output cos-map queue 2 threshold 2 3
+mls qos srr-queue output cos-map queue 2 threshold 3 6 7
+mls qos srr-queue output cos-map queue 3 threshold 3 0
+mls qos srr-queue output cos-map queue 4 threshold 3 1
+mls qos srr-queue output dscp-map queue 1 threshold 3 32 33 40 41 42 43 44 45
+mls qos srr-queue output dscp-map queue 1 threshold 3 46 47
+mls qos srr-queue output dscp-map queue 2 threshold 1 16 17 18 19 20 21 22 23
+mls qos srr-queue output dscp-map queue 2 threshold 1 26 27 28 29 30 31 34 35
+mls qos srr-queue output dscp-map queue 2 threshold 1 36 37 38 39
+mls qos srr-queue output dscp-map queue 2 threshold 2 24
+mls qos srr-queue output dscp-map queue 2 threshold 3 48 49 50 51 52 53 54 55
+mls qos srr-queue output dscp-map queue 2 threshold 3 56 57 58 59 60 61 62 63
+mls qos srr-queue output dscp-map queue 3 threshold 3 0 1 2 3 4 5 6 7
+mls qos srr-queue output dscp-map queue 4 threshold 1 8 9 11 13 15
+mls qos srr-queue output dscp-map queue 4 threshold 2 10 12 14
+mls qos queue-set output 1 threshold 1 100 100 50 200
+mls qos queue-set output 1 threshold 2 125 125 100 400
+mls qos queue-set output 1 threshold 3 100 100 100 400
+mls qos queue-set output 1 threshold 4 60 150 50 200
+mls qos queue-set output 1 buffers 15 25 40 20
+mls qos
+!
+crypto pki trustpoint TP-self-signed-3315210880
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3315210880
+ revocation-check none
+ rsakeypair TP-self-signed-3315210880
+!
+!
+crypto pki certificate chain TP-self-signed-3315210880
+ certificate self-signed 01
+  3082023C 308201A5 A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 33333135 32313038 3830301E 170D3933 30333031 30303031 
+  32335A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 33313532 
+  31303838 3030819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100D9C4 791C4FFF 4DE7BD88 55A527D3 9B5C30DD 4F9AC428 1922360B 3AE94701 
+  FA41201C DFA9C2E5 E883647E 4CE68B3C 4C547AA2 FC882769 35F5C067 B367EC19 
+  0209702E 2A956F44 58214407 B4E06233 3886BB37 C2D3771D FDCED2C2 96FFC0A7 
+  B2717BD2 9F8C565E 35681674 15123A0C DB8D12CE 06BBA670 6895F9EA 36EEC221 
+  DB150203 010001A3 64306230 0F060355 1D130101 FF040530 030101FF 300F0603 
+  551D1104 08300682 04535736 2E301F06 03551D23 04183016 8014FE4E 1BBAF144 
+  F4504913 B6B66D23 E7F1D590 3544301D 0603551D 0E041604 14FE4E1B BAF144F4 
+  504913B6 B66D23E7 F1D59035 44300D06 092A8648 86F70D01 01040500 03818100 
+  09A30B39 17FCC410 33277920 A38E2C8F 6E61B237 36381DFA 948881A8 742710C4 
+  16CCC303 2ADF58FF 0A80239D 1FA7F45A 868B1E26 E4AC508C 0DF33D66 3AC65466 
+  F87EBA15 18D89FEA 08BA5D7A B081DD9B CED06AE3 AD93D8CF 967BFD59 9EC5EBD6 
+  740FA90F 5DB11049 A044791F B9EC2B15 B36BF852 71B7CA98 0A8FF5C9 22D86238
+  	quit
+cts server deadtime 0
+no cts server test all enable
+cts server test all idle-time 0
+cts server test all deadtime 0
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 2
+ name VOICE
+!
+vlan 20
+ name ShoreTel
+!
+vlan 220
+ name VoIP-2nd-Floor
+!
+vlan 2000
+ name 2nd-Floor
+!
+ip ssh version 2
+lldp run
+!
+class-map match-all AUTOQOS_VOIP_DATA_CLASS
+  match ip dscp ef 
+class-map match-all AUTOQOS_DEFAULT_CLASS
+  match access-group name AUTOQOS-ACL-DEFAULT
+class-map match-all AUTOQOS_VOIP_SIGNAL_CLASS
+  match ip dscp cs3 
+!
+policy-map AUTOQOS-SRND4-CISCOPHONE-POLICY
+ class AUTOQOS_VOIP_DATA_CLASS
+   set dscp ef
+  police 128000 8000 exceed-action policed-dscp-transmit
+ class AUTOQOS_VOIP_SIGNAL_CLASS
+   set dscp cs3
+  police 32000 8000 exceed-action policed-dscp-transmit
+ class AUTOQOS_DEFAULT_CLASS
+   set dscp default
+  police 10000000 8000 exceed-action policed-dscp-transmit
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+!
+interface GigabitEthernet0/1
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/2
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/3
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/4
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/5
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/6
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/7
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/8
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/9
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/10
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/11
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/12
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/13
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/14
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/15
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/16
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/17
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/18
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/19
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/20
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/21
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/22
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/23
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/24
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/25
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/26
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/27
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/28
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/29
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/30
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/31
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/32
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/33
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/34
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/35
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/36
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/37
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/38
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/39
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/40
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/41
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/42
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/43
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/44
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/45
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/46
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/47
+ description CISCO AP6
+ switchport access vlan 2000
+ switchport mode access
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust device cisco-phone
+ mls qos trust cos
+ auto qos voip cisco-phone 
+ spanning-tree portfast
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+!
+interface GigabitEthernet0/48
+ description UPLINK TO CORE
+ switchport access vlan 2000
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport voice vlan 20
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+ spanning-tree portfast
+!
+interface GigabitEthernet1/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+!
+interface GigabitEthernet1/2
+!
+interface GigabitEthernet1/3
+!
+interface GigabitEthernet1/4
+ switchport trunk encapsulation dot1q
+ srr-queue bandwidth share 1 30 35 5
+ priority-queue out 
+ mls qos trust cos
+ auto qos trust 
+!
+interface TenGigabitEthernet1/1
+!
+interface TenGigabitEthernet1/2
+!
+interface Vlan1
+ ip address 10.1.1.245 255.255.252.0
+!
+interface Vlan220
+ description VoIP-2nd-Floor
+ no ip address
+!
+interface Vlan2000
+ description 2nd-Floor
+ ip address 10.200.1.245 255.255.252.0
+!
+ip default-gateway 10.1.1.252
+no ip http server
+ip http secure-server
+!
+ip access-list extended AUTOQOS-ACL-DEFAULT
+ permit ip any any
+!
+banner motd ^C                                               
+***********************************************************************
+*    WARNING - PRIVATE ELECTRONIC DEVICE - ACCESS PROHIBITED          *
+*  This device is a private network device.  Access to this device is *
+* not authorized.  Any attempt for unauthorized access will be logged *
+*         and appropriate legal action will be taken.                 *
+***********************************************************************
+^C
+!
+line con 0
+ password 7 0508090132585C1C1A111E1D05
+ logging synchronous
+ login
+line vty 0 4
+ exec-timeout 60 0
+ privilege level 15
+ login local
+ transport input ssh
+line vty 5 15
+ exec-timeout 60 0
+ privilege level 15
+ login local
+ transport input ssh
+!
+ntp server 216.228.192.69
+end
