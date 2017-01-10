@@ -50,7 +50,6 @@
       ios_config:
         lines:
          - ip dhcp snooping 
-         - do show ip dhcp snooping | include Switch
         provider: "{{ cli }}"
 
 
