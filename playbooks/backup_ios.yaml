@@ -24,7 +24,7 @@
         provider: "{{ cli }}"
 
 
-    - name: Config Trust port uplink 
+#    - name: Config Trust port uplink 
       ios_config:
         lines:
          - ip dhcp snooping trust
@@ -32,7 +32,7 @@
         provider: "{{ cli }}"
 
 
-    - name: Config Trust port uplink on 10.1.1.245
+ #   - name: Config Trust port uplink on 10.1.1.245
       ios_config:
         lines:
          - ip dhcp snooping trust
@@ -40,7 +40,7 @@
         provider: "{{ cli }}"
       when: "'10.1.1.245' in inventory_hostname"
 
-    - name: Enable DHCP Snooping on VLAN's 
+ #   - name: Enable DHCP Snooping on VLAN's 
       ios_config:
         lines:
          - ip dhcp snooping vlan 1000,2000,1
