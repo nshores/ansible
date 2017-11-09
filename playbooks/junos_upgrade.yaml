@@ -1,0 +1,85 @@
+---
+- name: Install Junos OS
+  hosts: pkw-5140
+  roles:
+  - Juniper.junos 
+  connection: local
+  gather_facts: no
+  #Replace variables with the current software package.
+  vars:
+    wait_time: 900
+    pkg_dir: /var/tmp/
+    OS_version: 15.1R6.7
+    OS_package: jinstall-ex-3300-15.1R6.7-domestic-signed.tgz
+    log_dir: /var/log/ansible/
+    #SMTP settings
+    to_smtp: nshores@dsatechnologies.com
+    smtp_host: outlook.office365.com
+    smtp_port: 587
+
+
+  tasks:
+
+  #Begin main execution block
+  - block:
+
+      - name: Notification for upgrade start
+        mail:
+         host: "{{ smtp_host }}"
+         port: "{{ smtp_port }}"
+         username: "{{ smtp_user }}"
+         password: "{{ smtp_password }}"
+         from: "{{ smtp_user }}"
+         to: "{{ to_smtp }}"
+         subject: Ansible-report
+         attach: /var/log/software.log
+         body: 'Starting deployment on {{ inventory_hostname }}'
+
+      - name: Checking NETCONF connectivity
+        wait_for: host={{ inventory_hostname }} port=830 timeout=5
+
+      - name: Install Junos OS package
+        junos_install_os:
+          host={{ inventory_hostname }}
+          reboot=yes
+          no_copy=no
+          user={{ switch_user }}
+          passwd={{ switch_password }}
+          version={{ OS_version }}
+          package={{ pkg_dir }}/{{ OS_package }}
+          logfile={{ log_dir }}/software.log
+        register: sw
+        notify:
+        - wait_reboot
+
+      - name: Wait for switch reboot
+        wait_for: host={{ inventory_hostname }} port=830 timeout={{ wait_time }}
+        when: not sw.check_mode
+
+      - name: Notification for install finish
+        mail:
+         host: "{{ smtp_host }}"
+         port: "{{ smtp_port }}"
+         username: "{{ smtp_user }}"
+         password: "{{ smtp_password }}"
+         from: "{{ smtp_user }}"
+         to: "{{ to_smtp }}"
+         subject: Ansible-report
+         attach: /var/log/software.log ~/.ansible/logs/ansible.log
+         body: 'Finished install on {{ inventory_hostname }}'
+         when: sw|succeeded
+
+    #Call exception when any above task fails
+    rescue:
+
+      - name: Deployment failed notification
+        mail:
+         host: "{{ smtp_host }}"
+         port: "{{ smtp_port }}"
+         username: "{{ smtp_user }}"
+         password: "{{ smtp_password }}"
+         from: "{{ smtp_user }}"
+         to: "{{ to_smtp }}"
+         subject: Ansible-report
+         attach: /var/log/software.log ~/.ansible/logs/ansible.log
+         body: 'Failed deployment on {{ inventory_hostname }}. See attached log file'
